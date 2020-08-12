@@ -4,18 +4,17 @@ function populateFromStorage() {
     if (localStorage.getItem('library')) {
         let retrievedObj = JSON.parse(localStorage.getItem('library'));
         for (book of retrievedObj) {
-            let {title, author, pages, read, inLibrary} = book;
-            myLibrary.push(new Book(title, author, pages, read, inLibrary));
+            let {title, author, pages, read} = book;
+            myLibrary.push(new Book(title, author, pages, read));
         }
     }
 }
 
-function Book(title, author, pages, read = false, inLibrary = false) {
+function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
-    this.inLibrary = inLibrary;
 }
 
 Book.prototype.info = function() {
@@ -23,11 +22,8 @@ Book.prototype.info = function() {
 }
 
 Book.prototype.remove = function() {
-    if (this.inLibrary) {
-        myLibrary.splice(myLibrary.indexOf(this), 1);
-        this.inLibrary = false;
-        updateStorage();
-    }
+    myLibrary.splice(myLibrary.indexOf(this), 1);
+    updateStorage();
 }
 
 Book.prototype.toggleRead = function() {
@@ -35,14 +31,8 @@ Book.prototype.toggleRead = function() {
     updateStorage();
 }
 
-function addBooksToLibrary() {
-    for (let i = 0; i < arguments.length; i++) {
-        let elem = arguments[i];
-        if (!elem.inLibrary) {
-            myLibrary.push(elem);
-            elem.inLibrary = true;
-        }
-    }
+function addBookToLibrary(title, author, pages, read = false) {
+    myLibrary.push(new Book(title, author, pages, read));
     updateStorage();
 }
 
