@@ -2,7 +2,11 @@ let myLibrary;
 
 function populateFromStorage() {
     if (localStorage.getItem('library')) {
-        myLibrary = [...localStorage.getItem('library')];
+        let retrievedObj = JSON.parse(localStorage.getItem('library'));
+        for (book of retrievedObj) {
+            let {title, author, pages, read, inLibrary} = book;
+            myLibrary.push(new Book(title, author, pages, read, inLibrary));
+        }
     }
 }
 
@@ -77,6 +81,8 @@ function start() {
 
 function updateStorage() {
     if (storageAvailable('localStorage')) {
-        localStorage.setItem('library', myLibrary);
+        localStorage.setItem('library', JSON.stringify(myLibrary));
     }
 }
+
+start();
