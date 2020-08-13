@@ -3,13 +3,13 @@ let myLibrary;
 function populateFromStorage() {
     if (localStorage.getItem('library')) {
         let retrievedObj = JSON.parse(localStorage.getItem('library'));
-        for (book of retrievedObj) {
-            let {title, author, pages, read} = book;
+        for ({title, author, pages, read} of retrievedObj) {
             myLibrary.push(new Book(title, author, pages, read));
         }
     }
 }
 
+/* constructor
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -29,6 +29,30 @@ Book.prototype.remove = function() {
 Book.prototype.toggleRead = function() {
     this.read = !this.read;
     updateStorage();
+}
+*/
+
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    info() {
+        return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read!' : 'not read yet.'}`
+    }
+
+    remove() {
+        myLibrary.splice(myLibrary.indexOf(this), 1);
+        updateStorage();
+    }
+
+    toggleRead() {
+        this.read = !this.read;
+        updateStorage();
+    }
 }
 
 function addBookToLibrary(title, author, pages, read = false) {
