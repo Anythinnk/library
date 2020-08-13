@@ -1,0 +1,1 @@
+This is an attempt at a small library app to store a collection of books. Its purpose is to touch on object constructors, prototype, and local storage. For now, there is no web interface (html and css) and updating of book information is done through the console, but this may change in the future when I return to working on my HTML and CSS.
